@@ -1,23 +1,24 @@
-import React,{ useContext } from "react";
-import AppContext from './AppContext'
+import React, { useContext } from "react";
+import AppContext from './AppContext';
 import "./App.css";
 
 const { 
-  LangContext, 
-  LangProvider,
-  ThemeContext,
-  ThemeProvider 
+	LangProvider, 
+	LangContext,
+	ThemeProvider,
+	ThemeContext
 } = AppContext;
 
 function LangPage() {
-  return (
-    <LangProvider>
-      <ThemeProvider>
-        <Header />
-        <Content />
-        <Footer />
-      </ThemeProvider>
-    </LangProvider>
+
+  return (	
+		<LangProvider>
+			<ThemeProvider>
+		    <Header />
+  		  <Content />
+    		<Footer />
+			</ThemeProvider>
+		</LangProvider>
   );
 }
 
@@ -31,30 +32,37 @@ function Header() {
 }
 
 function Menu() {
-  const props = useContext(LangContext);
-  const themeProps = useContext(ThemeContext)
+
   console.log('menu render')
+	const props = useContext(LangContext) ;
+	const propsTheme = useContext(ThemeContext);
+
+
+	const handleLang = (props, e) => {
+		props.setLang(e.target.value);
+	}
+
   return (
-    <div>
+    <>
       <ul>
         <li>Home</li>
         <li>Products</li>
         <li>
           Languange
-          <select value={props.lang} onChange={props.changeLang}>
-            <option value="🇬🇧"> 🇬🇧 English </option>
-            <option value="🇮🇩"> 🇮🇩 Indonesia </option>
+          <select value={ props.lang } onChange={ e => props.setLang(e.target.value )}> 
+            <option value="en"> English </option>
+            <option value="id">  Indonesia </option>
           </select>
         </li>
         <li>
           Theme
-          <select value={themeProps.theme} onChange={themeProps.changeTheme}>
+          <select value={ propsTheme.theme } onChange={ e => propsTheme.setTheme(e.target.value)}>
             <option value="light"> Light </option>
             <option value="dark"> Dark </option>
           </select>
         </li>
       </ul>
-    </div>
+    </>
   );
 }
 
@@ -69,16 +77,16 @@ function Content() {
 }
 
 function Footer() {
-  const props = useContext(LangContext);
-  const themeProps = useContext(ThemeContext);
+	const props = useContext(LangContext);
+	const propsTheme = useContext(ThemeContext);
   console.log("footer render")
   return (
-    <>
-      <i>-- Footer --</i>
-      <p>Languange : {props.lang} </p>
-      <p>Theme : {themeProps.theme} </p>
-    </>
-  );
+					<div>
+						<i>-- Footer --</i>
+		  	    <p>Languange : { props.lang } </p>
+  		  	  <p>Theme :  { propsTheme.theme }</p>
+					</div>
+				)
 }
 
 export default LangPage;

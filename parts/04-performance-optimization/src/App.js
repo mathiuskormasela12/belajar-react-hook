@@ -1,20 +1,9 @@
-import React, { useState, useCallback, useMemo } from "react";
+import React, { useState } from "react";
 import "./App.css";
 import Layout from "./Layout";
 
 function App() {
   const [count, setCount] = useState(0);
-  const [user, setUser] = useState({ name: "jhon" });
-  const likeAction = () => setCount(current => current + 1);
-  
-  const heavyProcess = (u) => {
-    // sleep(2000)
-    return u;
-  }
-
-  const memoizedlikeAction = useCallback(likeAction,[])
-  const userProp = useMemo(()=>heavyProcess(user),[user] )
-
   
   console.log("Parent Component Rendered");
   return (
@@ -22,19 +11,27 @@ function App() {
       <p>
         <i> -- Parent Component -- </i>
       </p>
-      <button onClick={likeAction}>Like {count} </button>
+      <button onClick={() => setCount(c => c + 1)}>Like {count} </button>
 
-      <MemoizedChildComponent
+      <MemoChildComponent
         title="Hello"
-        user={userProp}
-        action={memoizedlikeAction}
+				mahasiswa={{
+					nama: 'Mathius'
+				}}
       />
     </Layout>
   );
 }
 
-function ChildComponent({ title, user, action }) {
-  // sleep(2000) // heavy process simulation
+// Hanya untuk string dan integer
+const MemoChildComponent = React.memo(ChildComponent, compare);
+
+function compare(prevProps, nextProps) {
+	return JSON.stringify(prevProps) === JSON.stringify(nextProps);
+}
+
+function ChildComponent({ title, mahasiswa: { nama } }) {
+  sleep(2000) // heavy process simulation
   console.log("Child Component Rendered");
   return (
     <>
@@ -44,18 +41,12 @@ function ChildComponent({ title, user, action }) {
       </p>
       <h1>
         {" "}
-        {title}, {user.name}{" "}
+	  { title } { nama }
       </h1>
-      <button onClick={action}> Like </button>
+      <button> Like </button>
     </>
   );
 }
-
-function compare(prevProps, nextProps) {
-  return JSON.stringify(prevProps) === JSON.stringify(nextProps);
-}
-
-const MemoizedChildComponent = React.memo(ChildComponent);
 
 function sleep(milliseconds) {
   const date = Date.now();

@@ -7,14 +7,15 @@ import MyFunc from "./MyFunc";
 import NewsFeed from "./NewsFeed";
 
 function App() {
-  const [toggle,setToggle] = useState(true);
-  const handleToggle = ()=>setToggle(currentState => !currentState)
-  return (
+		
+		const [state, setState] = useState(true);
+		
+    return (
     <Layout>
-      <button onClick={handleToggle}>Toggle</button>
-      {/* {toggle && <MyClass/>} */}
-      {/* {toggle && <MyFunc/>} */}
-      <NewsFeed/>
+			<button onClick={ () => setState(current => !current)}>Hide</button>
+			{/*{ state && <MyClass/> }*/}
+			{/*{ state && <MyFunc />}*/}
+			<NewsFeed />
     </Layout>
   );
 }

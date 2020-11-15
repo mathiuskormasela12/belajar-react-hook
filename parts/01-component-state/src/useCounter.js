@@ -1,23 +1,23 @@
-import React, { useState } from 'react'
+import React, { useState } from 'react';
 
-function useCounter(defaultValue){
-  const [state, setState] = useState(defaultValue);
-  const handleState = () => {
-    setState(currentState => currentState + 1)
-  }
+function useCounter(defaultValue) {
+	const [state, setState] = useState(defaultValue);
 
-  const handleTriple = () => {
-    handleState();
-    handleState();
-    handleState();
-  };
+	function handleState() {
+		setState(currentState => currentState + 1);
+	}
 
-  
-  return [
-    state,
-    handleState,
-    handleTriple
-  ]
+	function handleTripple() {
+		handleState();
+		handleState();
+		handleState();
+	}
+
+	return [
+		state,
+		handleState,
+		handleTripple
+	];
 }
 
-export default useCounter
+export default useCounter;
